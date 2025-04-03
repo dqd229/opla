@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1741157498 source:c:\bt\opla\b11\main.c
+	<stdio.h>
+	<stdlib.h>
+
