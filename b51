@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define nm 1000
+int a[nm][nm],b[nm][nm],m,n,c[nm][nm],m2,n2;
+int main()
+{
+    FILE *f=fopen("TICH_MT.inp","r");
+    FILE *f2=fopen("TICH_MT.out","w");
+    fscanf(f,"%d\n",&m);
+    fscanf(f,"%d\n",&n);
+    for (int i=1;i<=m;i++)
+        for (int j=1;j<=n;j++)
+    {
+        fscanf(f,"%d",&a[i][j]);
+    }
+     fscanf(f,"%d\n",&m2);
+    fscanf(f,"%d\n",&n2);
+    for (int i=1;i<=m2;i++)
+        for (int j=1;j<=n2;j++)
+    {
+        fscanf(f,"%d",&b[i][j]);
+
+    }
+    for (int k=1;k<=m;k++)
+        for (int j=1;j<=n2;j++)
+        {
+            for (int i=1;i<=m2;i++)
+            c[k][j]+=a[k][i]*b[i][j];
+        }
+     for (int i=1;i<=m;i++){
+            for (int j=1;j<=n2;j++)
+            {
+            fprintf(f2,"%d ",c[i][j]);
+            }
+            fprintf(f2,"\n");
+            }
+    fclose(f);
+    fclose(f2);
+    return 0;
+}
