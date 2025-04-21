@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define nm 1000
+int a[nm][nm],b[nm][nm],m,n,c[nm][nm];
+int main()
+{
+    FILE *f=fopen("CONG_MT.inp","r");
+    FILE *f2=fopen("CONG_MT.out","w");
+    fscanf(f,"%d\n",&m);
+    fscanf(f,"%d\n",&n);
+    for (int i=1;i<=m;i++)
+        for (int j=1;j<=n;j++)
+    {
+        fscanf(f,"%d",&a[i][j]);
+    }
+    for (int i=1;i<=m;i++)
+        for (int j=1;j<=n;j++)
+    {
+        fscanf(f,"%d",&b[i][j]);
+        c[i][j]=a[i][j]+b[i][j];
+    }
+    fprintf(f2,"tong cua 2 ma tran tren la:\n");
+    for (int i=1;i<=m;i++){
+        for (int j=1;j<=n;j++)
+    {
+       fprintf(f2,"%d ", c[i][j]);
+    }
+    fprintf(f2,"\n");
+    }
+    fclose(f);
+    fclose(f2);
+    return 0;
+}
