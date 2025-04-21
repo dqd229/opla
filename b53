@@ -1,0 +1,154 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct SinhVien
+{
+    char hoTen[50];
+    int tuoi;
+    float diemTB;
+    struct SinhVien* next;
+} SinhVien;
+SinhVien* taoSinhVien(char* hoTen, int tuoi, float diemTB)
+{
+    SinhVien* sv = (SinhVien*)malloc(sizeof(SinhVien));
+    strcpy(sv->hoTen, hoTen);
+    sv->tuoi = tuoi;
+    sv->diemTB = diemTB;
+    sv->next = NULL;
+    return sv;
+}
+void themCuoi(SinhVien** head, SinhVien* sv)
+{
+    if (*head == NULL)
+    {
+        *head = sv;
+    }
+    else
+    {
+        SinhVien* p = *head;
+        while (p->next != NULL)
+            p = p->next;
+        p->next = sv;
+    }
+}
+void inDanhSach(SinhVien* head)
+{
+    printf("\n%-5s %-20s %-5s %-7s\n", "STT", "Ho ten", "Tuoi", "Diem TB");
+    int stt = 1;
+    while (head != NULL)
+    {
+        printf("%-5d %-20s %-5d %-7.2f\n", stt++, head->hoTen, head->tuoi, head->diemTB);
+        head = head->next;
+    }
+}
+void chenTruoc(SinhVien** head, char* tenCanChen, SinhVien* svMoi)
+{
+    SinhVien* p = *head;
+    SinhVien* prev = NULL;
+
+    while (p != NULL)
+    {
+        if (strcmp(p->hoTen, tenCanChen) == 0)
+        {
+            if (prev == NULL)
+            {
+                svMoi->next = *head;
+                *head = svMoi;
+            }
+            else
+            {
+                svMoi->next = p;
+                prev->next = svMoi;
+            }
+            printf("Da chen sinh vien moi truoc \"%s\".\n", tenCanChen);
+            return;
+        }
+        prev = p;
+        p = p->next;
+    }
+
+    printf("Khong tim thay sinh vien \"%s\". Khong chen duoc.\n", tenCanChen);
+}
+void xoaTheoTen(SinhVien** head, char* tenCanXoa)
+{
+    SinhVien* p = *head;
+    SinhVien* prev = NULL;
+
+    while (p != NULL)
+    {
+        if (strcmp(p->hoTen, tenCanXoa) == 0)
+        {
+            if (prev == NULL)
+            {
+                *head = p->next;
+            }
+            else
+            {
+                prev->next = p->next;
+            }
+            free(p);
+            printf("Da xoa sinh vien \"%s\".\n", tenCanXoa);
+            return;
+        }
+        prev = p;
+        p = p->next;
+    }
+
+    printf("Khong tim thay sinh vien \"%s\".\n", tenCanXoa);
+}
+
+int main()
+{
+    SinhVien* head = NULL;
+    int n;
+    printf("Nhap so sinh vien ban dau: ");
+    scanf("%d", &n);
+    getchar();
+    for (int i = 0; i < n; i++)
+    {
+        char ten[50];
+        int tuoi;
+        float diem;
+        printf("Nhap ten SV %d: ", i + 1);
+        fgets(ten, sizeof(ten), stdin);
+        ten[strcspn(ten, "\n")] = 0;
+        printf("Tuoi: ");
+        scanf("%d", &tuoi);
+        printf("Diem TB: ");
+        scanf("%f", &diem);
+        getchar();
+
+        SinhVien* sv = taoSinhVien(ten, tuoi, diem);
+        themCuoi(&head, sv);
+    }
+    printf("\n--- Danh sach sinh vien ---\n");
+    inDanhSach(head);
+    char tenChen[50];
+    printf("\nNhap ten sinh vien can chen truoc: ");
+    fgets(tenChen, sizeof(tenChen), stdin);
+    tenChen[strcspn(tenChen, "\n")] = 0;
+    char tenMoi[50];
+    int tuoiMoi;
+    float diemMoi;
+    printf("Nhap thong tin sinh vien moi:\n");
+    printf("Ten: ");
+    fgets(tenMoi, sizeof(tenMoi), stdin);
+    tenMoi[strcspn(tenMoi, "\n")] = 0;
+    printf("Tuoi: ");
+    scanf("%d", &tuoiMoi);
+    printf("Diem TB: ");
+    scanf("%f", &diemMoi);
+    getchar();
+    SinhVien* svMoi = taoSinhVien(tenMoi, tuoiMoi, diemMoi);
+    chenTruoc(&head, tenChen, svMoi);
+    printf("\n--- Danh sach sau khi chen ---\n");
+    inDanhSach(head);
+    char tenXoa[50];
+    printf("\nNhap ten sinh vien can xoa: ");
+    fgets(tenXoa, sizeof(tenXoa), stdin);
+    tenXoa[strcspn(tenXoa, "\n")] = 0;
+    xoaTheoTen(&head, tenXoa);
+    printf("\n--- Danh sach sau khi xoa ---\n");
+    inDanhSach(head);
+    return 0;
+}
