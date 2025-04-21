@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+int n;
+int t=0;
+typedef struct
+{
+    char ten[30];
+    int gia;
+    int sl;
+    int ttien;
+}hang;
+int main()
+{
+
+    FILE *f1=fopen("SO_LIEU.inp","r");
+    FILE *f2=fopen("SO_LIEU.out","w");
+    fscanf(f1,"%d",&n);
+    hang ds[n];
+    for (int i=1;i<=n;i++){
+    fscanf(f1,"%s",&ds[i].ten);
+    fscanf(f1,"%d",&ds[i].gia);
+    fscanf(f1,"%d",&ds[i].sl);
+    ds[i].ttien=ds[i].sl*ds[i].gia;
+    }
+    fprintf(f2,"                SO LIEU BAN HANG\n");
+    fprintf(f2,"STT         Ten Hang        Don gia         So luong        Thanh tien\n");
+    for (int i=1;i<=n;i++){
+    fprintf(f2,"%d           %s             %d            %d               %d\n",i,ds[i].ten,ds[i].gia,ds[i].sl,ds[i].ttien);
+    t+=ds[i].ttien;
+    }
+    fprintf(f2,"                                                              Tong tien: %d",t);
+    fclose(f1);
+    fclose(f2);
+    return 0;
+}
